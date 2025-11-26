@@ -1,90 +1,57 @@
-## [Devias Kit - React](https://material-kit-react.devias.io/)
+# 🧭 Personal Dashboard Project
 
-![license](https://img.shields.io/badge/license-MIT-blue.svg)
+개인의 할 일, 일정, 통계, 메모 등을 한 곳에서 관리할 수 있는 **Full-Stack 개인 대시보드 프로젝트**입니다.  
+프론트엔드는 **Next.js + React + MUI**, 백엔드는 **Python FastAPI**, 데이터베이스는 **PostgreSQL**을 사용합니다.
 
-[![Devias Kit - React](https://github.com/devias-io/material-kit-react/blob/main/public/assets/thumbnail.png)](https://material-kit-react.devias.io/)
+---
 
-> Free React Admin Dashboard made with [MUI's](https://mui.com) components, [React](https://reactjs.org) and of course [Next.js](https://github.com/vercel/next.js) to boost your app development process!
+## 🚀 Tech Stack
 
-## Pages 
+### **Frontend**
+- Next.js (React Framework)
+- React 18
+- MUI (Material UI)
+- TypeScript
+- React Query (데이터 fetching/캐싱 예정)
+- Zustand or Redux (상태 관리 예정)
 
-- [Dashboard](https://material-kit-react.devias.io)
-- [Customers](https://material-kit-react.devias.io/dashboard/customers)
-- [Integrations](https://material-kit-react.devias.io/dashboard/integrations)
-- [Settings](https://material-kit-react.devias.io/dashboard/settings)
-- [Account](https://material-kit-react.devias.io/dashboard/account)
-- [Sign In](https://material-kit-react.devias.io/auth/sign-in)
-- [Sign Up](https://material-kit-react.devias.io/auth/sign-up)
-- [Reset Password](https://material-kit-react.devias.io/auth/reset-password)
+### **Backend**
+- Python FastAPI
+- PostgreSQL
+- Raw SQL (ORM 최소화)
+- psycopg2
+- JWT Authentication
 
-## Free Figma Community File
+### **Infra / Deployment**
+- AWS S3 + CloudFront (Frontend Hosting)
+- AWS EC2 (FastAPI Backend)
+- AWS RDS (PostgreSQL)
+- Docker / Docker Compose (개발 환경)
 
-- [Duplicate File](https://www.figma.com/file/b3L1Np4RYiicZAOMopHNkm/Devias-Dashboard-Design-Library-Kit)
+---
 
-## Upgrade to PRO Version
+## 🎯 Project Goals
 
-We also have a pro version of this product which bundles even more pages and components if you want
-to save more time and design efforts :)
+- 개인 생산성을 높일 수 있는 **대시보드 웹 서비스** 개발
+- Next.js + FastAPI 기반의 **풀스택 구조 학습**
+- 직접 작성한 SQL 기반의 **DB 설계 능력 강화**
+- AWS 배포 경험 및 DevOps 역량 향상
+- 포트폴리오로 제출 가능한 완성도 있는 프로젝트 만들기
 
-| Free Version (this one)  | [Devias Kit Pro](https://mui.com/store/items/devias-kit-pro/)                |
-| ------------------------ | :--------------------------------------------------------------------------- |
-| **8** Pages              | **80+** Pages                                                                |
-| ✔ Custom Authentication  | ✔ Authentication with **Amplify**, **Auth0**, **Firebase** and **Supabase**  |
-| -                        | ✔ Vite Version                                                               |
-| -                        | ✔ Dark Mode Support                                                          |
-| -                        | ✔ Complete Users Flows                                                       |
-| -                        | ✔ Premium Technical Support                                                  |
+---
 
-## Quick start
+## 🛠 Features (Plan)
 
-- Clone the repo: `git clone https://github.com/devias-io/material-kit-react.git`
-- Make sure your Node.js and npm versions are up to date
-- Install dependencies: `npm install` or `yarn`
-- Start the server: `npm run dev` or `yarn dev`
-- Open browser: `http://localhost:3000`
+### ✔ v1 기능
+- 회원가입 / 로그인 (JWT)
+- Todo 리스트 관리 (CRUD)
+- 카테고리 관리
+- 월별 Todo 통계
+- 기본 대시보드 레이아웃 (Sidebar / Header / Content)
 
-## File Structure
-
-Within the download you'll find the following directories and files:
-
-```
-┌── .editorconfig
-├── .eslintrc.js
-├── .gitignore
-├── CHANGELOG.md
-├── LICENSE.md
-├── next-env.d.ts
-├── next.config.js
-├── package.json
-├── README.md
-├── tsconfig.json
-├── public
-└── src
-	├── components
-	├── contexts
-	├── hooks
-	├── lib
-	├── styles
-	├── types
-	└── app
-		├── layout.tsx
-		├── page.tsx
-		├── auth
-		└── dashboard
-```
-
-## Resources
-
-- More freebies like this one: https://devias.io
-
-## Reporting Issues:
-
-- [Github Issues Page](https://github.com/devias-io/material-kit-react/issues)
-
-## License
-
-- Licensed under [MIT](https://github.com/devias-io/material-kit-react/blob/main/LICENSE.md)
-
-## Contact Us
-
-- Email Us: support@deviasio.zendesk.com
+### ✔ v2 기능 (추가 예정)
+- 메모 기능
+- 이미지 업로드 (S3)
+- 목표 관리(Goal Tracker)
+- 대시보드 위젯 커스터마이징
+- 다크모드
