@@ -37,62 +37,41 @@ export interface ResetPasswordParams {
 }
 
 class AuthClient {
-  async signUp(_: SignUpParams): Promise<{ error?: string }> {
-    // Make API request
+  private token: string | null = null;
 
-    // We do not handle the API, so we'll just generate a token and store it in localStorage.
-    const token = generateToken();
+  setToken(token: string) {
+    this.token = token;
     localStorage.setItem('custom-auth-token', token);
-
-    return {};
   }
 
-  async signInWithOAuth(_: SignInWithOAuthParams): Promise<{ error?: string }> {
-    return { error: 'Social authentication not implemented' };
+  async signUp(params: SignUpParams): Promise<{ error?: string }> {
+    const token = generateToken();
+    this.setToken(token);
+    return {};
   }
 
   async signInWithPassword(params: SignInWithPasswordParams): Promise<{ error?: string }> {
     const { email, password } = params;
-
-    // Make API request
-
-    // We do not handle the API, so we'll check if the credentials match with the hardcoded ones.
     if (email !== 'sofia@devias.io' || password !== 'Secret1') {
       return { error: 'Invalid credentials' };
     }
-
     const token = generateToken();
-    localStorage.setItem('custom-auth-token', token);
-
+    this.setToken(token);
     return {};
   }
 
-  async resetPassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: 'Password reset not implemented' };
-  }
-
-  async updatePassword(_: ResetPasswordParams): Promise<{ error?: string }> {
-    return { error: 'Update reset not implemented' };
-  }
-
   async getUser(): Promise<{ data?: User | null; error?: string }> {
-    // Make API request
-
-    // We do not handle the API, so just check if we have a token in localStorage.
-    const token = localStorage.getItem('custom-auth-token');
-
-    if (!token) {
-      return { data: null };
-    }
-
+    const token = this.token ?? localStorage.getItem('custom-auth-token');
+    if (!token) return { data: null };
     return { data: user };
   }
 
   async signOut(): Promise<{ error?: string }> {
+    this.token = null;
     localStorage.removeItem('custom-auth-token');
-
     return {};
   }
 }
 
 export const authClient = new AuthClient();
+
