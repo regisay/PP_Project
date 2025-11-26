@@ -46,7 +46,8 @@ class AuthClient {
 
   async signUp(params: SignUpParams): Promise<{ error?: string }> {
     const token = generateToken();
-    this.setToken(token);
+    console.log("params", params)
+    console.log("token", token)
     return {};
   }
 
@@ -58,6 +59,11 @@ class AuthClient {
     const token = generateToken();
     this.setToken(token);
     return {};
+  }
+
+    async resetPassword(value : string): Promise<{ error?: string }> {
+      console.log(value)
+    return { error: 'Password reset not implemented' };
   }
 
   async getUser(): Promise<{ data?: User | null; error?: string }> {
