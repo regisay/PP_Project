@@ -51,8 +51,8 @@ export function UserProvider({ children, requireAuth = false }: UserProviderProp
 React.useEffect(() => {
     const token = localStorage.getItem('access_token');
     if (token) {
-      authClient.setToken(token); // authClient에 토큰 등록
-      checkSession().catch(logger.error);
+      authClient.setToken(token); // authClient에 토큰 등록 ß
+      checkSession().catch(logger.error); 
     } else {
       setState({ user: null, error: null, isLoading: false });
     }
