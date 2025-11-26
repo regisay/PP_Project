@@ -5,7 +5,8 @@ from app.routers import auth
 app = FastAPI(title="Dashboard Backend")
 
 origins = [
-    "http://localhost:3000",  # Next.js dev
+    "http://localhost:3000",  # 로컬 Next.js
+    "https://pp-project-67z994p16-regisays-projects.vercel.app",  # 배포된 프론트
 ]
 
 app.add_middleware(

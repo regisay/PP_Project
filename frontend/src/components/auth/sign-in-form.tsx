@@ -33,7 +33,7 @@ const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfie
 // FastAPI 로그인 API 호출 함수
 async function signInWithPassword(values: Values): Promise<{ data?: { access_token: string }; error?: string }> {
   try {
-    const res = await fetch('http://localhost:8000/api/auth/login', { // <- 여기 수정
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(values),
@@ -46,10 +46,11 @@ async function signInWithPassword(values: Values): Promise<{ data?: { access_tok
 
     const data = await res.json();
     return { data };
-  } catch (err) {
+  } catch {
     return { error: 'Network error' };
   }
 }
+
 
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
