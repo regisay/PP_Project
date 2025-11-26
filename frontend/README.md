@@ -23,9 +23,9 @@
 - JWT Authentication
 
 ### **Infra / Deployment**
-- AWS S3 + CloudFront (Frontend Hosting)
-- AWS EC2 (FastAPI Backend)
-- AWS RDS (PostgreSQL)
+- **Frontend:** Vercel (Next.js Hosting)
+- **Backend:** AWS EC2 (FastAPI)
+- **Database:** AWS RDS (PostgreSQL)
 - Docker / Docker Compose (개발 환경)
 
 ---
@@ -55,3 +55,12 @@
 - 목표 관리(Goal Tracker)
 - 대시보드 위젯 커스터마이징
 - 다크모드
+
+---
+
+## ⚡ Deployment Notes
+
+- **Frontend:** Vercel → GitHub와 연동하여 Push 시 자동 배포  
+- **Backend:** AWS EC2에 FastAPI 서버 배포, 도메인 연결 가능  
+- **Database:** AWS RDS PostgreSQL 연결  
+- **환경 변수:** `.env` 파일 관리, Vercel 환경 변수 설정 필수
