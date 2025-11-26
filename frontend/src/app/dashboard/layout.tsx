@@ -13,20 +13,17 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps): React.JSX.Element {
   return (
-    <AuthGuard>
-      <GlobalStyles
-        styles={{
-          body: {
-            '--MainNav-height': '56px',
-            '--MainNav-zIndex': 1000,
-            '--SideNav-width': '280px',
-            '--SideNav-zIndex': 1100,
-            '--MobileNav-width': '320px',
-            '--MobileNav-zIndex': 1100,
-          },
-        }}
-      />
-      <Box
+      <><GlobalStyles
+      styles={{
+        body: {
+          '--MainNav-height': '56px',
+          '--MainNav-zIndex': 1000,
+          '--SideNav-width': '280px',
+          '--SideNav-zIndex': 1100,
+          '--MobileNav-width': '320px',
+          '--MobileNav-zIndex': 1100,
+        },
+      }} /><Box
         sx={{
           bgcolor: 'var(--mui-palette-background-default)',
           display: 'flex',
@@ -44,7 +41,6 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
             </Container>
           </main>
         </Box>
-      </Box>
-    </AuthGuard>
+      </Box></>
   );
 }

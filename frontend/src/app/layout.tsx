@@ -18,7 +18,7 @@ export default function Layout({ children }: LayoutProps): React.JSX.Element {
     <html lang="en">
       <body>
         <LocalizationProvider>
-          <UserProvider>
+          <UserProvider requireAuth>
             <ThemeProvider>{children}</ThemeProvider>
           </UserProvider>
         </LocalizationProvider>

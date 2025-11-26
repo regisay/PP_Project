@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+import { useRouter } from 'next/navigation';
 
 import type { User } from '@/types/user';
 import { authClient } from '@/lib/auth/client';
@@ -17,9 +18,12 @@ export const UserContext = React.createContext<UserContextValue | undefined>(und
 
 export interface UserProviderProps {
   children: React.ReactNode;
+  requireAuth?: boolean; // 로그인 필수 여부
 }
 
-export function UserProvider({ children }: UserProviderProps): React.JSX.Element {
+export function UserProvider({ children, requireAuth = false }: UserProviderProps): React.JSX.Element {
+  const router = useRouter();
+
   const [state, setState] = React.useState<{ user: User | null; error: string | null; isLoading: boolean }>({
     user: null,
     error: null,
@@ -32,24 +36,35 @@ export function UserProvider({ children }: UserProviderProps): React.JSX.Element
 
       if (error) {
         logger.error(error);
-        setState((prev) => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
+        setState({ user: null, error: 'Something went wrong', isLoading: false });
         return;
       }
 
-      setState((prev) => ({ ...prev, user: data ?? null, error: null, isLoading: false }));
+      setState({ user: data ?? null, error: null, isLoading: false });
     } catch (error) {
       logger.error(error);
-      setState((prev) => ({ ...prev, user: null, error: 'Something went wrong', isLoading: false }));
+      setState({ user: null, error: 'Something went wrong', isLoading: false });
     }
   }, []);
 
+  // 초기 세션 체크
   React.useEffect(() => {
     checkSession().catch((error) => {
       logger.error(error);
-      // noop
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- Expected
-  }, []);
+  }, [checkSession]);
+
+  // 로그인 필수 페이지에서 미인증 시 리다이렉트
+  React.useEffect(() => {
+    if (!state.isLoading && requireAuth && !state.user) {
+      router.push('/auth/sign-in');
+    }
+  }, [state.isLoading, state.user, requireAuth, router]);
+
+  // 로딩 중이면 아무것도 렌더링하지 않거나 스피너 표시
+  if (state.isLoading && requireAuth) {
+    return <div>Loading...</div>;
+  }
 
   return <UserContext.Provider value={{ ...state, checkSession }}>{children}</UserContext.Provider>;
 }

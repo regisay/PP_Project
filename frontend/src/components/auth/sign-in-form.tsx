@@ -19,7 +19,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { z as zod } from 'zod';
 
 import { paths } from '@/paths';
-import { authClient } from '@/lib/auth/client';
 import { useUser } from '@/hooks/use-user';
 
 const schema = zod.object({
@@ -31,13 +30,32 @@ type Values = zod.infer<typeof schema>;
 
 const defaultValues = { email: 'sofia@devias.io', password: 'Secret1' } satisfies Values;
 
+// FastAPI 로그인 API 호출 함수
+async function signInWithPassword(values: Values): Promise<{ data?: { access_token: string }; error?: string }> {
+  try {
+    const res = await fetch('http://localhost:8000/api/auth/login', { // <- 여기 수정
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(values),
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json();
+      return { error: errorData.detail || 'Login failed' };
+    }
+
+    const data = await res.json();
+    return { data };
+  } catch (err) {
+    return { error: 'Network error' };
+  }
+}
+
 export function SignInForm(): React.JSX.Element {
   const router = useRouter();
-
   const { checkSession } = useUser();
 
-  const [showPassword, setShowPassword] = React.useState<boolean>();
-
+  const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [isPending, setIsPending] = React.useState<boolean>(false);
 
   const {
@@ -51,20 +69,25 @@ export function SignInForm(): React.JSX.Element {
     async (values: Values): Promise<void> => {
       setIsPending(true);
 
-      const { error } = await authClient.signInWithPassword(values);
+      const result = await signInWithPassword(values);
 
-      if (error) {
-        setError('root', { type: 'server', message: error });
+      if (result.error) {
+        setError('root', { type: 'server', message: result.error });
         setIsPending(false);
         return;
       }
+      if (result.data?.access_token) {
+        // JWT 토큰 저장
+        localStorage.setItem('access_token', result.data.access_token);
+      }
 
-      // Refresh the auth state
+      // 인증 상태 업데이트
       await checkSession?.();
 
-      // UserProvider, for this case, will not refresh the router
-      // After refresh, GuestGuard will handle the redirect
-      router.refresh();
+      // 페이지 리프레시
+      router.push('/dashboard');
+
+      setIsPending(false);
     },
     [checkSession, router, setError]
   );
@@ -106,17 +129,13 @@ export function SignInForm(): React.JSX.Element {
                       <EyeIcon
                         cursor="pointer"
                         fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(false);
-                        }}
+                        onClick={(): void => setShowPassword(false)}
                       />
                     ) : (
                       <EyeSlashIcon
                         cursor="pointer"
                         fontSize="var(--icon-fontSize-md)"
-                        onClick={(): void => {
-                          setShowPassword(true);
-                        }}
+                        onClick={(): void => setShowPassword(true)}
                       />
                     )
                   }
